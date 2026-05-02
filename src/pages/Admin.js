@@ -5,6 +5,9 @@ export default function Admin() {
   const ADMIN_EMAIL = "rosecoffeeflower@gmail.com";
   const ADMIN_PASS = "Sala-055989";
 
+  const CLOUD_NAME = "df141dibk";
+  const UPLOAD_PRESET = "Rose_Flower";
+
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [logged, setLogged] = useState(false);
@@ -45,37 +48,60 @@ export default function Admin() {
     localStorage.setItem("homeMedia", JSON.stringify(updated));
   };
 
+  const uploadToCloudinary = async (file) => {
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", UPLOAD_PRESET);
+
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+      {
+        method: "POST",
+        body: data
+      }
+    );
+
+    const result = await res.json();
+
+    if (!result.secure_url) {
+      alert("Upload failed");
+      throw new Error("Cloudinary upload failed");
+    }
+
+    return result.secure_url;
+  };
+
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = () => setImage(reader.result);
-    reader.readAsDataURL(file);
+    setImage(file);
   };
 
-  const handleHomeMedia = (e) => {
+  const handleHomeMedia = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
 
-    files.forEach((file) => {
-      const reader = new FileReader();
+    try {
+      const uploadedMedia = [];
 
-      reader.onload = () => {
-        const newMedia = {
+      for (const file of files) {
+        const url = await uploadToCloudinary(file);
+
+        uploadedMedia.push({
           id: Date.now().toString() + Math.random().toString(),
           type: file.type.startsWith("video") ? "video" : "image",
-          src: reader.result
-        };
+          src: url
+        });
+      }
 
-        const current = JSON.parse(localStorage.getItem("homeMedia")) || [];
-        saveHomeMedia([...current, newMedia]);
-      };
-
-      reader.readAsDataURL(file);
-    });
-
-    e.target.value = "";
+      const updated = [...homeMedia, ...uploadedMedia];
+      saveHomeMedia(updated);
+      e.target.value = "";
+    } catch (error) {
+      console.error(error);
+      alert("Failed to upload home media");
+    }
   };
 
   const deleteHomeMedia = (id) => {
@@ -91,33 +117,44 @@ export default function Admin() {
     setEditId(null);
   };
 
-  const saveProduct = () => {
+  const saveProduct = async () => {
     if (!name || !desc || !image) {
       alert("Fill all fields");
       return;
     }
 
-    if (editId) {
-      const updated = products.map((p) =>
-        p.id === editId ? { ...p, name, desc, page, image } : p
-      );
+    try {
+      let imageUrl = image;
 
-      saveProducts(updated);
+      if (image instanceof File) {
+        imageUrl = await uploadToCloudinary(image);
+      }
+
+      if (editId) {
+        const updated = products.map((p) =>
+          p.id === editId ? { ...p, name, desc, page, image: imageUrl } : p
+        );
+
+        saveProducts(updated);
+        clearForm();
+        return;
+      }
+
+      const newProduct = {
+        id: Date.now().toString(),
+        name,
+        desc,
+        image: imageUrl,
+        page,
+        hidden: false
+      };
+
+      saveProducts([...products, newProduct]);
       clearForm();
-      return;
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save product");
     }
-
-    const newProduct = {
-      id: Date.now().toString(),
-      name,
-      desc,
-      image,
-      page,
-      hidden: false
-    };
-
-    saveProducts([...products, newProduct]);
-    clearForm();
   };
 
   const startEdit = (p) => {
@@ -193,9 +230,7 @@ export default function Admin() {
 
               <p>{m.type}</p>
 
-              <button onClick={() => deleteHomeMedia(m.id)}>
-                Delete
-              </button>
+              <button onClick={() => deleteHomeMedia(m.id)}>Delete</button>
             </div>
           ))}
         </div>
@@ -219,13 +254,20 @@ export default function Admin() {
         <select value={page} onChange={(e) => setPage(e.target.value)}>
           <option value="sweets">Sweets</option>
           <option value="chocolate">Chocolate</option>
+          <option value="nuts">Nuts</option>
           <option value="flowers">Flowers</option>
           <option value="others">Others</option>
         </select>
 
-        <input type="file" onChange={handleImage} />
+        <input type="file" accept="image/*" onChange={handleImage} />
 
-        {image && <img className="admin-preview" src={image} alt="" />}
+        {image && (
+          <img
+            className="admin-preview"
+            src={image instanceof File ? URL.createObjectURL(image) : image}
+            alt=""
+          />
+        )}
 
         <button onClick={saveProduct}>
           {editId ? "Save Changes" : "Add Product"}
@@ -250,9 +292,7 @@ export default function Admin() {
               {p.hidden ? "Show" : "Hide"}
             </button>
 
-            <button onClick={() => deleteProduct(p.id)}>
-              Delete
-            </button>
+            <button onClick={() => deleteProduct(p.id)}>Delete</button>
           </div>
         ))}
       </div>

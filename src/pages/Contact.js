@@ -14,27 +14,27 @@ export default function Contact() {
         <p className="contact-desc">{t.weldiscr}</p>
 
         <div className="contact-grid">
-          <a href="https://wa.me/972XXXXXXXXX" target="_blank" rel="noreferrer" className="contact-item">
+          <a href="https://wa.me/972527991448" target="_blank" rel="noreferrer" className="contact-item">
             <span>📱</span>
             WhatsApp
           </a>
 
-          <a href="https://facebook.com" target="_blank" rel="noreferrer" className="contact-item">
+          <a href="https://www.facebook.com/share/1D75tqmQY4/" target="_blank" rel="noreferrer" className="contact-item">
             <span>📘</span>
             Facebook
           </a>
 
-          <a href="https://instagram.com" target="_blank" rel="noreferrer" className="contact-item">
+          <a href="https://www.instagram.com/rose.coffeeflower?igsh=cjhrdHF3MGZ3bWYy" target="_blank" rel="noreferrer" className="contact-item">
             <span>📸</span>
             Instagram
           </a>
 
-          <a href="https://tiktok.com" target="_blank" rel="noreferrer" className="contact-item">
+          <a href="https://www.tiktok.com/@rosecoffee.flower?_r=1&_t=ZS-961cwLdSFl7" target="_blank" rel="noreferrer" className="contact-item">
             <span>🎵</span>
             TikTok
           </a>
 
-          <a href="tel:055XXXXXXX" className="contact-item">
+          <a href="tel:0527991448" className="contact-item">
             <span>☎️</span>
             Call Us
           </a>

@@ -8,6 +8,7 @@ import { useLang } from "./LanguageContext";
 import Home from "./pages/Home";
 import Sweets from "./pages/Sweets";
 import Chocolate from "./pages/Chocolate";
+import Nuts from "./pages/Nuts";
 import Flowers from "./pages/Flowers";
 import Others from "./pages/Others";
 import Contact from "./pages/Contact";
@@ -73,6 +74,7 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/sweets" element={<Sweets />} />
         <Route path="/chocolate" element={<Chocolate />} />
+        <Route path="/nuts" element={<Nuts />} />
         <Route path="/flowers" element={<Flowers />} />
         <Route path="/others" element={<Others />} />
         <Route path="/contact" element={<Contact />} />

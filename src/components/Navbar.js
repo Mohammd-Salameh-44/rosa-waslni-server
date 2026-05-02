@@ -34,10 +34,10 @@ export default function Navbar() {
         <button onClick={() => go("/")}>{t.home}</button>
         <button onClick={() => go("/sweets")}>{t.sweets}</button>
         <button onClick={() => go("/chocolate")}>{t.chocolate}</button>
+        <button onClick={() => go("/nuts")}>{t.nuts}</button>
         <button onClick={() => go("/flowers")}>{t.flowers}</button>
         <button onClick={() => go("/others")}>{t.others}</button>
         <button onClick={() => go("/contact")}>{t.contact}</button>
-
         {/* 🌙 DARK MODE ICON */}
         <button className="dark-icon-btn" onClick={toggleDark}>
           {dark ? "☀️" : "🌙"}
@@ -67,6 +67,7 @@ export default function Navbar() {
             <button onClick={() => go("/")}>{t.home}</button>
             <button onClick={() => go("/sweets")}>{t.sweets}</button>
             <button onClick={() => go("/chocolate")}>{t.chocolate}</button>
+            <button onClick={() => go("/nuts")}>{t.nuts}</button>
             <button onClick={() => go("/flowers")}>{t.flowers}</button>
             <button onClick={() => go("/others")}>{t.others}</button>
             <button onClick={() => go("/contact")}>{t.contact}</button>

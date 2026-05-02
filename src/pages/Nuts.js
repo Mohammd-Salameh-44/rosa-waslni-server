@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import { useLang } from "../LanguageContext";
 import { usePageTransition } from "../App";
 
-export default function Others() {
+export default function Nuts() {
   const [selected, setSelected] = useState(null);
   const [products, setProducts] = useState([]);
   const { t, toggleLang } = useLang();
@@ -12,18 +12,18 @@ export default function Others() {
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("rosaProducts")) || [];
-    setProducts(saved.filter((p) => p.page === "others" && !p.hidden));
+    setProducts(saved.filter((p) => p.page === "nuts" && !p.hidden));
   }, []);
 
   return (
     <div className="container">
       <Navbar />
 
-      <h2 className="page-title">{t.others}</h2>
+      <h2 className="page-title">{t.nuts}</h2>
 
       {products.length === 0 ? (
         <div className="empty-card glass">
-          <div className="empty-icon">🎁</div>
+          <div className="empty-icon">🥜</div>
           <h3>{t.noProductsTitle}</h3>
           <p>{t.noProductsDesc}</p>
         </div>

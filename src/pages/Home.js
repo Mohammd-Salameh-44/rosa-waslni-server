@@ -32,6 +32,7 @@ function Home() {
   const items = [
     { name: t.sweets, path: "/sweets", icon: "🍬" },
     { name: t.chocolate, path: "/chocolate", icon: "🍫" },
+    { name: t.nuts, path: "/nuts", icon: "🥜" },
     { name: t.flowers, path: "/flowers", icon: "🌸" },
     { name: t.others, path: "/others", icon: "🎁" },
     { name: t.contact, path: "/contact", icon: "📞" }
@@ -41,13 +42,13 @@ function Home() {
     <div className="home-split">
 
       {/* 🔥 TOP ICONS */}
-      <div className="home-top-actions">
-        <button className="dark-icon-btn" onClick={toggleDark}>
-          {dark ? "☀️" : "🌙"}
+      <div className="top-actions">
+        <button className="lang-btn" onClick={toggleLang}>
+          🌐
         </button>
 
-        <button className="lang-btn" onClick={toggleLang}>
-          🌍
+        <button className="dark-icon-btn" onClick={toggleDark}>
+          {dark ? "☀️" : "🌙"}
         </button>
       </div>
 

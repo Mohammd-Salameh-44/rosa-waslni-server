@@ -21,19 +21,27 @@ export default function Sweets() {
 
       <h2 className="page-title">{t.sweets}</h2>
 
-      <div className="grid">
-        {products.map((p) => (
-          <motion.div
-            key={p.id}
-            layoutId={`card-${p.id}`}
-            className="glass card"
-            onClick={() => setSelected(p)}
-          >
-            <motion.img layoutId={`img-${p.id}`} src={p.image} alt={p.name} />
-            <motion.h3 layoutId={`title-${p.id}`}>{p.name}</motion.h3>
-          </motion.div>
-        ))}
-      </div>
+      {products.length === 0 ? (
+        <div className="empty-card glass">
+          <div className="empty-icon">🍬</div>
+          <h3>{t.noProductsTitle}</h3>
+          <p>{t.noProductsDesc}</p>
+        </div>
+      ) : (
+        <div className="grid">
+          {products.map((p) => (
+            <motion.div
+              key={p.id}
+              layoutId={`card-${p.id}`}
+              className="glass card"
+              onClick={() => setSelected(p)}
+            >
+              <motion.img layoutId={`img-${p.id}`} src={p.image} alt={p.name} />
+              <motion.h3 layoutId={`title-${p.id}`}>{p.name}</motion.h3>
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       <AnimatePresence>
         {selected && (
