@@ -125,7 +125,8 @@ export default function Cart() {
   };
 
   const calculateDeliveryPrice = async () => {
-    if (!customerName || !customerPhone || !customerAddress || !customerLocation) {
+    if (!customerLocation) {
+      toast.error(t.locationRequired);
       return;
     }
 
@@ -169,14 +170,14 @@ export default function Cart() {
 
   useEffect(() => {
     if (!checkoutOpen) return;
-    if (!customerName || !customerPhone || !customerAddress || !customerLocation) return;
+    if (!customerLocation) return;
 
     const timer = setTimeout(() => {
       calculateDeliveryPrice();
     }, 700);
 
     return () => clearTimeout(timer);
-  }, [
+  }, [checkoutOpen, customerLocation, total]);, [
     checkoutOpen,
     customerName,
     customerPhone,
@@ -488,8 +489,8 @@ export default function Cart() {
                     {calculatingDelivery
                       ? t.calculating
                       : deliveryFee === null
-                      ? t.notCalculated
-                      : `₪ ${deliveryFee}`}
+                        ? t.notCalculated
+                        : `₪ ${deliveryFee}`}
                   </strong>
                 </div>
 

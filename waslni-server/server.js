@@ -55,10 +55,6 @@ function signRequest(method, path, body) {
   return { timestamp, signature, rawBody };
 }
 
-function isInsideJerusalem(lat, lng) {
-  return lat >= 31.7 && lat <= 31.86 && lng >= 35.13 && lng <= 35.28;
-}
-
 function isValidLocation(lat, lng) {
   return (
     Number.isFinite(lat) &&
@@ -159,13 +155,6 @@ app.post("/delivery-price", async (req, res) => {
       });
     }
 
-    if (!isInsideJerusalem(customerLat, customerLng)) {
-      return res.status(400).json({
-        ok: false,
-        error: "Delivery is available only inside Jerusalem"
-      });
-    }
-
     const quoteResult = await createQuote(customerLat, customerLng);
 
     if (!quoteResult.ok) {
@@ -221,13 +210,6 @@ app.post("/orders", async (req, res) => {
       return res.status(400).json({
         ok: false,
         error: "Valid customer location is required"
-      });
-    }
-
-    if (!isInsideJerusalem(customerLat, customerLng)) {
-      return res.status(400).json({
-        ok: false,
-        error: "Delivery is available only inside Jerusalem"
       });
     }
 
